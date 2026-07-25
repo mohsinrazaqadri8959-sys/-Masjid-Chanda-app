@@ -67,7 +67,6 @@
         }
         .settings-btn:hover { background: #e2e8f0; }
 
-        /* Stats Grid Layout */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -155,7 +154,6 @@
         .btn-pay { background: var(--primary); color: white; }
         .btn-edit { background: #e2e8f0; color: var(--text-dark); }
 
-        /* Modals */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);
             display: flex; align-items: center; justify-content: center;
@@ -200,7 +198,6 @@
             <p id="displaySubTitle">July Mahine Ka Chanda (Live Automated Tracker)</p>
         </header>
 
-        <!-- Dynamic Live Statistics Grid -->
         <div class="stats-grid">
             <div class="stat-card">
                 <h3>Total Collected</h3>
@@ -233,17 +230,13 @@
             <button class="btn-action btn-download" onclick="downloadPDF()">PDF</button>
         </div>
 
-        <!-- Members Container -->
         <div class="member-list" id="memberList"></div>
 
-        <!-- Master Reset All Button -->
         <button class="btn-action btn-reset-all" onclick="openResetAllModal()">🔄 Reset All Payments (Sabka Zero Karein)</button>
     </div>
 
-    <!-- Print View -->
     <div id="printArea" class="print-only"></div>
 
-    <!-- Settings Modal to Change Header/Month Name -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-content" style="text-align: left;">
             <h3>App Title & Month Change</h3>
@@ -263,7 +256,6 @@
         </div>
     </div>
 
-    <!-- Modals -->
     <div class="modal-overlay" id="payModal">
         <div class="modal-content" style="text-align: left;">
             <h3 id="payMemberName">Name</h3>
@@ -318,7 +310,6 @@
         </div>
     </div>
 
-    <!-- Custom Confirmation Popup Modal -->
     <div class="modal-overlay" id="confirmModal">
         <div class="modal-content">
             <h3 id="confirmTitle" style="color: var(--danger);">⚠️ Savdhan!</h3>
@@ -331,7 +322,6 @@
     </div>
 
     <script>
-        // Default Data
         const defaultMembers = [
             { id: 1, name: "1. Hamza", defaultAmt: 1100, paid: false, amount: 0, date: '-' },
             { id: 2, name: "2. Sadik", defaultAmt: 200, paid: false, amount: 0, date: '-' },
@@ -408,8 +398,13 @@
             { id: 73, name: "73. Yusuf", defaultAmt: 200, paid: false, amount: 0, date: '-' }
         ];
 
-        // Load from LocalStorage or use defaults
-        let members = JSON.parse(localStorage.getItem('chanda_members')) || defaultMembers;
+        // Safe Loading with LocalStorage Synchronization
+        let members = JSON.parse(localStorage.getItem('chanda_members'));
+        if (!members || members.length === 0) {
+            members = defaultMembers;
+            localStorage.setItem('chanda_members', JSON.stringify(members));
+        }
+
         let currentAppTitle = localStorage.getItem('chanda_title') || "July 2026 Chanda Manager";
         let currentAppSub = localStorage.getItem('chanda_sub') || "July Mahine Ka Chanda (Live Automated Tracker)";
 
@@ -419,7 +414,6 @@
             renderUI();
         };
 
-        // Save data to LocalStorage
         function saveDataToStorage() {
             localStorage.setItem('chanda_members', JSON.stringify(members));
             localStorage.setItem('chanda_title', currentAppTitle);
@@ -447,7 +441,6 @@
             let totalPendingAmount = totalTarget - totalCollection;
             let pendingCount = members.length - paidCount;
 
-            // Update Header & Labels dynamically
             document.getElementById('pageTitle').innerText = currentAppTitle;
             document.getElementById('displayMainTitle').innerText = currentAppTitle;
             document.getElementById('displaySubTitle').innerText = currentAppSub;
@@ -562,7 +555,6 @@
             }
         }
 
-        // Custom Popup for Cancel Individual Payment
         function openCancelPaymentConfirm() {
             document.getElementById('confirmTitle').innerText = "⚠️ Payment Cancel Karein?";
             document.getElementById('confirmText').innerText = "Kya aap is member ka payment zero karke ise pending karna chahte hain?";
@@ -584,7 +576,6 @@
             document.getElementById('confirmModal').classList.add('active');
         }
 
-        // Custom Popup for Reset All Payments
         function openResetAllModal() {
             document.getElementById('confirmTitle').innerText = "🔄 Sabka Payment Reset Karein?";
             document.getElementById('confirmText').innerText = "Yeh sabhi sadasyon ka data zero (Pending) kar dega. Kya aap sure hain?";
