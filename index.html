@@ -249,12 +249,12 @@
             <h3>App Title & Month Change</h3>
             <p>Agla mahina ya saal yahan update karein</p>
             <div class="form-group">
-                <label>Main Title (Jaise: August 2026 Chanda)</label>
-                <input type="text" id="settingMainTitleInput" value="July 2026 Chanda Manager">
+                <label>Main Title</label>
+                <input type="text" id="settingMainTitleInput">
             </div>
             <div class="form-group">
                 <label>Subtitle / Description</label>
-                <input type="text" id="settingSubTitleInput" value="July Mahine Ka Chanda (Live Automated Tracker)">
+                <input type="text" id="settingSubTitleInput">
             </div>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="closeModal('settingsModal')">Cancel</button>
@@ -331,10 +331,8 @@
     </div>
 
     <script>
-        let currentAppTitle = "July 2026 Chanda Manager";
-        let currentAppSub = "July Mahine Ka Chanda (Live Automated Tracker)";
-
-        let members = [
+        // Default Data
+        const defaultMembers = [
             { id: 1, name: "1. Hamza", defaultAmt: 1100, paid: false, amount: 0, date: '-' },
             { id: 2, name: "2. Sadik", defaultAmt: 200, paid: false, amount: 0, date: '-' },
             { id: 3, name: "3. Saleem Johari", defaultAmt: 500, paid: false, amount: 0, date: '-' },
@@ -410,11 +408,23 @@
             { id: 73, name: "73. Yusuf", defaultAmt: 200, paid: false, amount: 0, date: '-' }
         ];
 
+        // Load from LocalStorage or use defaults
+        let members = JSON.parse(localStorage.getItem('chanda_members')) || defaultMembers;
+        let currentAppTitle = localStorage.getItem('chanda_title') || "July 2026 Chanda Manager";
+        let currentAppSub = localStorage.getItem('chanda_sub') || "July Mahine Ka Chanda (Live Automated Tracker)";
+
         let activeId = null;
 
         window.onload = function() {
             renderUI();
         };
+
+        // Save data to LocalStorage
+        function saveDataToStorage() {
+            localStorage.setItem('chanda_members', JSON.stringify(members));
+            localStorage.setItem('chanda_title', currentAppTitle);
+            localStorage.setItem('chanda_sub', currentAppSub);
+        }
 
         function renderUI(filterText = '') {
             const listEl = document.getElementById('memberList');
@@ -497,6 +507,7 @@
             
             currentAppTitle = newTitle;
             currentAppSub = newSub;
+            saveDataToStorage();
             closeModal('settingsModal');
             renderUI(document.getElementById('searchInput').value);
         }
@@ -520,6 +531,7 @@
                 members[mIndex].amount = Number(amt);
                 members[mIndex].date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
                 
+                saveDataToStorage();
                 closeModal('payModal');
                 renderUI(document.getElementById('searchInput').value);
             }
@@ -544,6 +556,7 @@
                 members[mIndex].name = newName;
                 members[mIndex].defaultAmt = Number(newTarget);
                 
+                saveDataToStorage();
                 closeModal('editModal');
                 renderUI(document.getElementById('searchInput').value);
             }
@@ -562,6 +575,7 @@
                     members[mIndex].amount = 0;
                     members[mIndex].date = '-';
                 }
+                saveDataToStorage();
                 closeModal('confirmModal');
                 closeModal('editModal');
                 renderUI(document.getElementById('searchInput').value);
@@ -573,7 +587,7 @@
         // Custom Popup for Reset All Payments
         function openResetAllModal() {
             document.getElementById('confirmTitle').innerText = "🔄 Sabka Payment Reset Karein?";
-            document.getElementById('confirmText').innerText = "Yeh sabhi 73 sadasyon ka data zero (Pending) kar dega. Kya aap sure hain?";
+            document.getElementById('confirmText').innerText = "Yeh sabhi sadasyon ka data zero (Pending) kar dega. Kya aap sure hain?";
             
             const actionBtn = document.getElementById('confirmActionBtn');
             actionBtn.onclick = function() {
@@ -582,6 +596,7 @@
                     m.amount = 0;
                     m.date = '-';
                 });
+                saveDataToStorage();
                 closeModal('confirmModal');
                 renderUI(document.getElementById('searchInput').value);
             };
@@ -610,6 +625,7 @@
                 date: '-'
             });
             
+            saveDataToStorage();
             closeModal('addModal');
             renderUI();
         }
