@@ -1,99 +1,677 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catalog - Jama Masjid Khuteri Jamaat Khana Utensil Rental</title>
-  
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/catalog.css">
-<link rel="stylesheet" href="/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">July 2026 Chanda Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 15px 10px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            padding: 20px;
+        }
+
+        header {
+            position: relative;
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        header h1 { font-size: 22px; color: var(--primary); font-weight: 700; }
+        header p { color: var(--text-muted); font-size: 12px; }
+
+        .settings-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+        .settings-btn:hover { background: #e2e8f0; }
+
+        /* Stats Grid Layout */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+        }
+
+        .stat-card.full-width {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #cbd5e1;
+        }
+
+        .stat-card h3 { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; font-weight: 600; }
+        .stat-card .val { font-size: 16px; font-weight: 700; }
+        
+        .text-green { color: var(--success); }
+        .text-blue { color: var(--primary); }
+        .text-yellow { color: var(--warning); }
+        .text-danger { color: var(--danger); }
+
+        .toolbar {
+            display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;
+        }
+
+        .search-box { flex: 1; min-width: 140px; position: relative; }
+        .search-box input {
+            width: 100%; padding: 10px 12px 10px 36px; border: 1px solid #cbd5e1;
+            border-radius: 10px; font-size: 13px; outline: none; background: #fff;
+        }
+        .search-box svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; fill: var(--text-muted); }
+
+        .btn-action {
+            padding: 10px 12px; border: none; border-radius: 10px; font-size: 12px; font-weight: 600;
+            cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; gap: 4px;
+        }
+        .btn-add { background: var(--primary); }
+        .btn-download { background: var(--success); }
+        .btn-reset-all { background: var(--danger); width: 100%; margin-top: 10px; }
+
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 50vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .member-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+        }
+
+        .member-card.paid {
+            border-left: 5px solid var(--success);
+            background: #f0fdf4;
+        }
+
+        .member-info h4 { font-size: 14px; font-weight: 600; color: #0f172a; margin-bottom: 2px; }
+        .member-info p { font-size: 11px; color: var(--text-muted); }
+
+        .member-actions { display: flex; align-items: center; gap: 6px; }
+
+        .badge { font-size: 9px; padding: 3px 6px; border-radius: 6px; font-weight: 600; }
+        .badge.unpaid { background: #fee2e2; color: var(--danger); }
+        .badge.paid { background: #d1fae5; color: var(--success); }
+
+        .btn-sm { border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .btn-pay { background: var(--primary); color: white; }
+        .btn-edit { background: #e2e8f0; color: var(--text-dark); }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 1000;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: white; width: 90%; max-width: 350px; border-radius: 16px; padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .modal-content h3 { font-size: 16px; margin-bottom: 6px; color: var(--text-dark); }
+        .modal-content p { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; }
+
+        .form-group { margin-bottom: 12px; text-align: left; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
+
+        .modal-buttons { display: flex; gap: 8px; margin-top: 15px; }
+        .btn-cancel { flex: 1; padding: 10px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; font-weight: 600; cursor: pointer; color: var(--text-dark); }
+        .btn-save { flex: 1; padding: 10px; border: none; background: var(--success); color: white; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-save-primary { background: var(--primary); }
+        .btn-danger-custom { background: var(--danger); color: white; width: 100%; margin-top: 8px; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 12px; }
+
+        @media print {
+            body { background: white; padding: 0; color: black; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
+            th { background-color: #f8fafc; font-weight: bold; }
+        }
+        .print-only { display: none; }
+    </style>
 </head>
 <body>
 
-  <!-- Header Banner -->
-  <header class="catalog-header">
-    <div class="header-inner">
-      <a href="index.html" class="brand-wrapper">
-        <img src="assets/logo.png" alt="Jama Masjid Khuteri Logo" class="brand-logo" onerror="this.src='./assets/logo.png'">
-        <div>
-          <h1 class="brand-title">Jama Masjid Khuteri Jamaat Khana</h1>
-          <p class="brand-subtitle">Bartan & Catering Equipment Rental Catalog</p>
+    <div class="container no-print">
+        <header>
+            <button class="settings-btn" onclick="openSettingsModal()" title="Settings / Change Title">⚙️</button>
+            <h1 id="displayMainTitle">July 2026 Chanda Manager</h1>
+            <p id="displaySubTitle">July Mahine Ka Chanda (Live Automated Tracker)</p>
+        </header>
+
+        <!-- Dynamic Live Statistics Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Collected</h3>
+                <div class="val text-green" id="totalCollection">₹0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Pending Amt</h3>
+                <div class="val text-danger" id="totalPendingAmount">₹0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Paid Members</h3>
+                <div class="val text-blue" id="paidCount">0/0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Members</h3>
+                <div class="val text-yellow" id="pendingCount">0</div>
+            </div>
+            <div class="stat-card full-width">
+                <h3 id="targetLabelTitle">Total Target (July 2026)</h3>
+                <div class="val text-blue" id="totalTargetAmount">₹0</div>
+            </div>
         </div>
-      </a>
 
-      <div class="header-contacts">
-        <div class="contact-pill">
-          <span>📍 Gram Khuteri, Dist. Durg (C.G.)</span>
+        <div class="toolbar">
+            <div class="search-box">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" id="searchInput" placeholder="Naam search karein..." oninput="filterData()">
+            </div>
+            <button class="btn-action btn-add" onclick="openAddModal()">+ Add</button>
+            <button class="btn-action btn-download" onclick="downloadPDF()">PDF</button>
         </div>
-        <div class="contact-pill">
-          <span>📞 Helpline: +91 98765 43210</span>
+
+        <!-- Members Container -->
+        <div class="member-list" id="memberList"></div>
+
+        <!-- Master Reset All Button -->
+        <button class="btn-action btn-reset-all" onclick="openResetAllModal()">🔄 Reset All Payments (Sabka Zero Karein)</button>
+    </div>
+
+    <!-- Print View -->
+    <div id="printArea" class="print-only"></div>
+
+    <!-- Settings Modal to Change Header/Month Name -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content" style="text-align: left;">
+            <h3>App Title & Month Change</h3>
+            <p>Agla mahina ya saal yahan update karein</p>
+            <div class="form-group">
+                <label>Main Title (Jaise: August 2026 Chanda)</label>
+                <input type="text" id="settingMainTitleInput" value="July 2026 Chanda Manager">
+            </div>
+            <div class="form-group">
+                <label>Subtitle / Description</label>
+                <input type="text" id="settingSubTitleInput" value="July Mahine Ka Chanda (Live Automated Tracker)">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('settingsModal')">Cancel</button>
+                <button class="btn-save btn-save-primary" onclick="saveSettings()">Update</button>
+            </div>
         </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Quick Package Helper -->
-  <section style="background: #FEF3C7; border-bottom: 1px solid #FCD34D; padding: 0.625rem 1rem;">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.8125rem;">
-      <div style="font-weight: 700; color: #92400E; display: flex; align-items: center; gap: 0.375rem;">
-        <span>🎉 Quick Event Offer Packages:</span>
-      </div>
-      <div style="display: flex; gap: 0.5rem;">
-        <button onclick="loadPresetPackage('50_guests')" class="btn btn-sm" style="background: #F59E0B; color: #FFF; border: none; font-size: 0.75rem; padding: 0.25rem 0.625rem;">
-          50 People Niyaz Package
-        </button>
-        <button onclick="loadPresetPackage('150_guests')" class="btn btn-sm" style="background: #D97706; color: #FFF; border: none; font-size: 0.75rem; padding: 0.25rem 0.625rem;">
-          150 People Dawat Package
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Main Toolbar (Search & Category Tabs) -->
-  <div class="catalog-toolbar">
-    <div class="search-and-presets">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="form-control" placeholder="Search item name (e.g. Deg, Plate, Balti, Bhatti)...">
-      </div>
     </div>
 
-    <div class="categories-scroll" id="category-tabs">
-      <!-- Category tabs rendered dynamically via catalog.js -->
-    </div>
-  </div>
-
-  <!-- Item Grid -->
-  <main class="catalog-container">
-    <div class="item-grid" id="item-grid">
-      <!-- Cards rendered dynamically via catalog.js -->
-    </div>
-  </main>
-
-  <!-- Floating Sticky Bottom Cart Bar -->
-  <div class="floating-cart-bar empty" id="floating-cart-bar">
-    <div class="cart-bar-inner">
-      <div class="cart-summary-text">
-        <span class="cart-count-badge" id="cart-items-count">0 Items Selected</span>
-        <div class="cart-total-amount">
-          Total Rent: <span id="cart-total-price">₹0</span>
+    <!-- Modals -->
+    <div class="modal-overlay" id="payModal">
+        <div class="modal-content" style="text-align: left;">
+            <h3 id="payMemberName">Name</h3>
+            <p id="payModalSubText">Payment Confirm Karein</p>
+            <div class="form-group">
+                <label>Amount (₹)</label>
+                <input type="number" id="payAmountInput">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('payModal')">Cancel</button>
+                <button class="btn-save" onclick="confirmPayment()">Pay Now</button>
+            </div>
         </div>
-      </div>
-
-      <div style="display: flex; gap: 0.5rem; align-items: center;">
-        <button class="btn btn-secondary btn-sm" id="btn-clear-cart" title="Clear Cart">
-          Clear
-        </button>
-        <button class="btn btn-accent btn-lg" id="btn-checkout">
-          View Cart & Checkout ➔
-        </button>
-      </div>
     </div>
-  </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/catalog.js"></script>
-<script type="module" src="/index.tsx"></script>
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content" style="text-align: left;">
+            <h3>Edit Member</h3>
+            <p>Details Update Karein</p>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="editNameInput">
+            </div>
+            <div class="form-group">
+                <label>Monthly Target (₹)</label>
+                <input type="number" id="editTargetInput">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('editModal')">Cancel</button>
+                <button class="btn-save btn-save-primary" onclick="saveEdit()">Update</button>
+            </div>
+            <button class="btn-danger-custom" onclick="openCancelPaymentConfirm()">❌ Cancel Payment (Reset to Zero)</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-content" style="text-align: left;">
+            <h3>Add New Member</h3>
+            <p>List Mein Naya Vyakti Jodein</p>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="addNameInput" placeholder="Jaise: Imran Khan">
+            </div>
+            <div class="form-group">
+                <label>Monthly Target (₹)</label>
+                <input type="number" id="addTargetInput" placeholder="Jaise: 500">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('addModal')">Cancel</button>
+                <button class="btn-save btn-save-primary" onclick="saveNewMember()">Add Member</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Popup Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-content">
+            <h3 id="confirmTitle" style="color: var(--danger);">⚠️ Savdhan!</h3>
+            <p id="confirmText">Kya aap sach mein yeh action karna chahte hain?</p>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('confirmModal')">Nahi (Cancel)</button>
+                <button class="btn-save" id="confirmActionBtn" style="background: var(--danger);">Haan, Okay Karein</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAppTitle = "July 2026 Chanda Manager";
+        let currentAppSub = "July Mahine Ka Chanda (Live Automated Tracker)";
+
+        let members = [
+            { id: 1, name: "1. Hamza", defaultAmt: 1100, paid: false, amount: 0, date: '-' },
+            { id: 2, name: "2. Sadik", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 3, name: "3. Saleem Johari", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 4, name: "4. Liaquat", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 5, name: "5. Hasan", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 6, name: "6. Gafur", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 7, name: "7. Hussain", defaultAmt: 1000, paid: false, amount: 0, date: '-' },
+            { id: 8, name: "8. Ishaq", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 9, name: "9. Irshad", defaultAmt: 1000, paid: false, amount: 0, date: '-' },
+            { id: 10, name: "10. Mukhtar", defaultAmt: 1100, paid: false, amount: 0, date: '-' },
+            { id: 11, name: "11. Razik", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 12, name: "12. Ashraf", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 13, name: "13. Nabi", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 14, name: "14. Raja", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 15, name: "15. Irfan", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 16, name: "16. Anwar", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 17, name: "17. Maqsood", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 18, name: "18. Syed Akbar Sahab", defaultAmt: 1100, paid: false, amount: 0, date: '-' },
+            { id: 19, name: "19. Nisar", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 20, name: "20. Tahir", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 21, name: "21. Emmu", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 22, name: "22. Razzaq", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 23, name: "23. Sahil", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 24, name: "24. Chhota Khalil", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 25, name: "25. Sharif Tata", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 26, name: "26. Akhtar", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 27, name: "27. Sanu", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 28, name: "28. Haji", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 29, name: "29. Sohel", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 30, name: "30. Sharif", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 31, name: "31. Sonu", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 32, name: "32. Lambu", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 33, name: "33. Saddam", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 34, name: "34. Javed", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 35, name: "35. Ghulam", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 36, name: "36. Hussain", defaultAmt: 1000, paid: false, amount: 0, date: '-' },
+            { id: 37, name: "37. Afsar", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 38, name: "38. Khalil", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 39, name: "39. Zeeshan", defaultAmt: 1100, paid: false, amount: 0, date: '-' },
+            { id: 40, name: "40. Rahman", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 41, name: "41. Hamid", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 42, name: "42. Sameem", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 43, name: "43. Sakir", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 44, name: "44. Jameel", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 45, name: "45. Imtiyaz", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 46, name: "46. Mohammad", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 47, name: "47. Dera Wala 1", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 48, name: "48. Dera Wala 2", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 49, name: "49. Ramzan", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 50, name: "50. Ramju", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 51, name: "51. Syed Zainul Abideen", defaultAmt: 500, paid: false, amount: 0, date: '-' },
+            { id: 52, name: "52. Samid", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 53, name: "53. Salman", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 54, name: "54. Naseem", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 55, name: "55. Farooq", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 56, name: "56. Hashim", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 57, name: "57. Ameen", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 58, name: "58. Karamat", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 59, name: "59. Nazir", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 60, name: "60. Rahim", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 61, name: "61. Nawab", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 62, name: "62. Zahid Auto", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 63, name: "63. Raja Auto", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 64, name: "64. Naeem", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 65, name: "65. Bachchu", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 66, name: "66. Imam Habibullah", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 67, name: "67. Hajju", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 68, name: "68. Bablu", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 69, name: "69. Ramzan Auto", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 70, name: "70. Lal Bi", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 71, name: "71. Bathul", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 72, name: "72. Ahmed", defaultAmt: 200, paid: false, amount: 0, date: '-' },
+            { id: 73, name: "73. Yusuf", defaultAmt: 200, paid: false, amount: 0, date: '-' }
+        ];
+
+        let activeId = null;
+
+        window.onload = function() {
+            renderUI();
+        };
+
+        function renderUI(filterText = '') {
+            const listEl = document.getElementById('memberList');
+            if (!listEl) return;
+            
+            listEl.innerHTML = '';
+
+            let totalCollection = 0;
+            let totalTarget = 0;
+            let paidCount = 0;
+
+            members.forEach(m => {
+                totalTarget += Number(m.defaultAmt || 0);
+                if (m.paid) {
+                    totalCollection += Number(m.amount || 0);
+                    paidCount++;
+                }
+            });
+
+            let totalPendingAmount = totalTarget - totalCollection;
+            let pendingCount = members.length - paidCount;
+
+            // Update Header & Labels dynamically
+            document.getElementById('pageTitle').innerText = currentAppTitle;
+            document.getElementById('displayMainTitle').innerText = currentAppTitle;
+            document.getElementById('displaySubTitle').innerText = currentAppSub;
+            document.getElementById('targetLabelTitle').innerText = `Total Target (${currentAppTitle})`;
+
+            document.getElementById('totalCollection').innerText = `₹${totalCollection.toLocaleString('en-IN')}`;
+            document.getElementById('totalPendingAmount').innerText = `₹${totalPendingAmount.toLocaleString('en-IN')}`;
+            document.getElementById('paidCount').innerText = `${paidCount}/${members.length}`;
+            document.getElementById('pendingCount').innerText = pendingCount;
+            document.getElementById('totalTargetAmount').innerText = `₹${totalTarget.toLocaleString('en-IN')}`;
+
+            let displayList = [...members].sort((a, b) => {
+                if (a.paid === b.paid) return 0;
+                return a.paid ? -1 : 1;
+            });
+
+            displayList.forEach(m => {
+                if (filterText && !m.name.toLowerCase().includes(filterText.toLowerCase())) return;
+
+                const card = document.createElement('div');
+                card.className = `member-card ${m.paid ? 'paid' : ''}`;
+                
+                card.innerHTML = `
+                    <div class="member-info">
+                        <h4>${m.name}</h4>
+                        <p>${m.paid ? `Paid: ₹${m.amount} (${m.date})` : `Monthly: ₹${m.defaultAmt}`}</p>
+                    </div>
+                    <div class="member-actions">
+                        <span class="badge ${m.paid ? 'paid' : 'unpaid'}">${m.paid ? 'PAID' : 'PENDING'}</span>
+                        <button class="btn-sm btn-edit" onclick="openEditModal(${m.id})">✎</button>
+                        <button class="btn-sm btn-pay" onclick="openPayModal(${m.id})">${m.paid ? 'Edit' : 'Pay'}</button>
+                    </div>
+                `;
+                listEl.appendChild(card);
+            });
+        }
+
+        function filterData() {
+            renderUI(document.getElementById('searchInput').value);
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            activeId = null;
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settingMainTitleInput').value = currentAppTitle;
+            document.getElementById('settingSubTitleInput').value = currentAppSub;
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function saveSettings() {
+            const newTitle = document.getElementById('settingMainTitleInput').value;
+            const newSub = document.getElementById('settingSubTitleInput').value;
+            if(!newTitle) return alert("Title khali nahi ho sakta!");
+            
+            currentAppTitle = newTitle;
+            currentAppSub = newSub;
+            closeModal('settingsModal');
+            renderUI(document.getElementById('searchInput').value);
+        }
+
+        function openPayModal(id) {
+            activeId = id;
+            const m = members.find(x => x.id === id);
+            document.getElementById('payMemberName').innerText = m.name;
+            document.getElementById('payModalSubText').innerText = `${currentAppTitle} Payment Confirm Karein`;
+            document.getElementById('payAmountInput').value = m.paid ? m.amount : m.defaultAmt;
+            document.getElementById('payModal').classList.add('active');
+        }
+
+        function confirmPayment() {
+            const amt = document.getElementById('payAmountInput').value;
+            if(!amt || amt <= 0) return alert("Sahi amount enter karein!");
+
+            const mIndex = members.findIndex(x => x.id === activeId);
+            if(mIndex !== -1) {
+                members[mIndex].paid = true;
+                members[mIndex].amount = Number(amt);
+                members[mIndex].date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+                
+                closeModal('payModal');
+                renderUI(document.getElementById('searchInput').value);
+            }
+        }
+
+        function openEditModal(id) {
+            activeId = id;
+            const m = members.find(x => x.id === id);
+            document.getElementById('editNameInput').value = m.name;
+            document.getElementById('editTargetInput').value = m.defaultAmt;
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function saveEdit() {
+            const newName = document.getElementById('editNameInput').value;
+            const newTarget = document.getElementById('editTargetInput').value;
+            
+            if(!newName || !newTarget) return alert("Saari details bharein!");
+
+            const mIndex = members.findIndex(x => x.id === activeId);
+            if(mIndex !== -1) {
+                members[mIndex].name = newName;
+                members[mIndex].defaultAmt = Number(newTarget);
+                
+                closeModal('editModal');
+                renderUI(document.getElementById('searchInput').value);
+            }
+        }
+
+        // Custom Popup for Cancel Individual Payment
+        function openCancelPaymentConfirm() {
+            document.getElementById('confirmTitle').innerText = "⚠️ Payment Cancel Karein?";
+            document.getElementById('confirmText').innerText = "Kya aap is member ka payment zero karke ise pending karna chahte hain?";
+            
+            const actionBtn = document.getElementById('confirmActionBtn');
+            actionBtn.onclick = function() {
+                const mIndex = members.findIndex(x => x.id === activeId);
+                if(mIndex !== -1) {
+                    members[mIndex].paid = false;
+                    members[mIndex].amount = 0;
+                    members[mIndex].date = '-';
+                }
+                closeModal('confirmModal');
+                closeModal('editModal');
+                renderUI(document.getElementById('searchInput').value);
+            };
+
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        // Custom Popup for Reset All Payments
+        function openResetAllModal() {
+            document.getElementById('confirmTitle').innerText = "🔄 Sabka Payment Reset Karein?";
+            document.getElementById('confirmText').innerText = "Yeh sabhi 73 sadasyon ka data zero (Pending) kar dega. Kya aap sure hain?";
+            
+            const actionBtn = document.getElementById('confirmActionBtn');
+            actionBtn.onclick = function() {
+                members.forEach(m => {
+                    m.paid = false;
+                    m.amount = 0;
+                    m.date = '-';
+                });
+                closeModal('confirmModal');
+                renderUI(document.getElementById('searchInput').value);
+            };
+
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function openAddModal() {
+            document.getElementById('addNameInput').value = '';
+            document.getElementById('addTargetInput').value = '';
+            document.getElementById('addModal').classList.add('active');
+        }
+
+        function saveNewMember() {
+            const newName = document.getElementById('addNameInput').value;
+            const newTarget = document.getElementById('addTargetInput').value;
+            
+            if(!newName || !newTarget) return alert("Saari details bharein!");
+
+            members.push({
+                id: Date.now(),
+                name: newName,
+                defaultAmt: Number(newTarget),
+                paid: false,
+                amount: 0,
+                date: '-'
+            });
+            
+            closeModal('addModal');
+            renderUI();
+        }
+
+        function downloadPDF() {
+            const printArea = document.getElementById('printArea');
+            let totalCol = 0;
+            let totalTarget = 0;
+
+            members.forEach(m => {
+                totalTarget += Number(m.defaultAmt || 0);
+                if(m.paid) totalCol += Number(m.amount || 0);
+            });
+
+            let totalPendingAmt = totalTarget - totalCol;
+
+            let html = `
+                <h2 style="text-align:center;">${currentAppTitle} Collection Report</h2>
+                <p style="text-align:center; margin-bottom: 10px;">${currentAppSub} | Generated on: ${new Date().toLocaleDateString('en-GB')} | Total Members: ${members.length}</p>
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:13px; border:1px solid #ccc; padding:8px;">
+                    <div><b>Total Target:</b> ₹${totalTarget.toLocaleString('en-IN')}</div>
+                    <div><b>Collected:</b> ₹${totalCol.toLocaleString('en-IN')}</div>
+                    <div><b>Pending:</b> ₹${totalPendingAmt.toLocaleString('en-IN')}</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Member Name</th>
+                            <th>Monthly Plan</th>
+                            <th>Status</th>
+                            <th>Paid Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            let printList = [...members].sort((a, b) => a.name.localeCompare(b.name));
+
+            printList.forEach((m, index) => {
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><b>${m.name}</b></td>
+                        <td>₹${m.defaultAmt}</td>
+                        <td style="color:${m.paid ? 'green' : 'red'}; font-weight:bold;">${m.paid ? 'PAID' : 'PENDING'}</td>
+                        <td>${m.paid ? '₹'+m.amount : '-'}</td>
+                        <td>${m.paid ? m.date : '-'}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+                <h3 style="text-align:right; margin-top: 15px; color: green;">Total Collection (${currentAppTitle}): ₹${totalCol.toLocaleString('en-IN')}</h3>
+                <h4 style="text-align:right; color: #EF4444;">Total Pending Amount: ₹${totalPendingAmt.toLocaleString('en-IN')}</h4>
+            `;
+            printArea.innerHTML = html;
+            window.print();
+        }
+    </script>
 </body>
 </html>
